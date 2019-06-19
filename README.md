@@ -74,7 +74,7 @@ with [Vault from HashiCorp][3].
         TOK_SECRET: my-token-secret
         TOKEN: e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822
         RESTY IP: 172.18.0.3
-        SECURE LINK: http://172.18.0.3/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223
+        http://172.18.0.3/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223
 
 4.  Use the link (until valid)
 
