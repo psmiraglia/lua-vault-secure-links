@@ -11,3 +11,10 @@ services:
     build: .
     depends_on:
     - vault
+    ports:
+    - "8080:8080"
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+    - "80:80"

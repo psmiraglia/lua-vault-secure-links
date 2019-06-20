@@ -32,5 +32,5 @@ t=$(echo -n ${signature} | openssl dgst -sha256 -hex -hmac ${tok_secret} | cut -
 resty_ip=$(docker inspect --format='{{.NetworkSettings.Networks.secure_link_default.IPAddress}}' resty)
 >&2 echo "RESTY IP: ${resty_ip}"
 
-secure_link="http://${resty_ip}${URI}?t=${t}&e=${expires}"
+secure_link="http://${resty_ip}:8080${URI}?t=${t}&e=${expires}"
 echo ${secure_link}
