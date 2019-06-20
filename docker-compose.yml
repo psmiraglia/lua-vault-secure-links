@@ -8,7 +8,7 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: my-root-token
   resty:
     container_name: resty
-    build: .
+    build: ./resty
     depends_on:
     - vault
     ports:
