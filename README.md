@@ -14,11 +14,11 @@ and by the backend to validate them.
 
 The links will be structured as follows
 
-    http://<DOMAIN><URI>?t=<TOKEN>&e=<EXPIRATION DATE>
+    http://<DOMAIN>:8080<URI>?t=<TOKEN>&e=<EXPIRATION DATE>
 
 for instance
 
-    http://192.168.240.3/hls/playlist.m3u8?t=ac18ada1ca48664e57e5ebc5c518cbd885f9b85f70c5c4377f573e356abc8621&e=1560871504
+    http://192.168.240.3:8080/hls/playlist.m3u8?t=ac18ada1ca48664e57e5ebc5c518cbd885f9b85f70c5c4377f573e356abc8621&e=1560871504
 
 `EXPIRATION DATE` is set to `now + 120 seconds` while `TOKEN` is computed as
 
@@ -74,11 +74,11 @@ with [Vault from HashiCorp][3].
         TOK_SECRET: my-token-secret
         TOKEN: e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822
         RESTY IP: 172.18.0.3
-        http://172.18.0.3/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223
+        http://172.18.0.3:8080/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223
 
 4.  Use the link (until valid)
 
-        $ curl "http://172.18.0.3/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223"
+        $ curl "http://172.18.0.3:8080/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223"
         #EXTM3U
 
         #
@@ -87,7 +87,7 @@ with [Vault from HashiCorp][3].
 
 5. Once expired (after 120 seconds), you should see something like that
 
-        $ curl "http://172.18.0.3/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223"
+        $ curl "http://172.18.0.3:8080/hls/playlist.m3u8?t=e7397b6c95eea37902e99278858d7081d5a8f4d6ac237d67b9525e1bb0fbd822&e=1560874223"
         <html>
         <head><title>403 Forbidden</title></head>
         <body>
@@ -95,6 +95,30 @@ with [Vault from HashiCorp][3].
         <hr><center>openresty/1.15.8.1</center>
         </body>
         </html>
+
+## Use the frontend app
+
+1.  Run the stack and load the secrets
+
+        $ docker-compose up -d --build
+        $ cd scripts
+        $ ./addsecrets.sh
+
+2.  Define in your `/etc/hosts` the aliases for `frontend` and `resty`
+
+        $ cd scripts
+        $ ./genaliases.sh | sudo tee -a /etc/hosts
+        192.168.16.4 resty
+        192.168.16.2 frontend
+
+    If your containers run on a VM or on a remote machine, aliases should be
+    defined as follows
+
+        <REMOTE_OR_VM_IP> frontend resty
+
+3. Open your browser and visit
+
+        http://frontend
 
 ## References
 
